@@ -9,7 +9,6 @@
 #include <exception>
 #include "drc_serial.h"
 
-
 int main(int argc, char** argv) {
 	initialize();
 
@@ -25,7 +24,8 @@ int main(int argc, char** argv) {
 		char feedback[100] = {0};
 		sendMsg(motor, steering, feedback);
 	 	//usleep(1000);
-		std::cout << feedback << std::endl;
+		std::cout << "raw feedback: " << feedback << "\n";
+		std::cout << "extracted feedback: " << extractFeedback(feedback) << "\n";
 	}
 
 	sendMsg(MOTOR, 0, str);

@@ -1,6 +1,8 @@
 #include "shared.h"
 #pragma pack(1)
 #include <Servo.h>
+#include <Time.h>
+#include <TimeLib.h>
 
 Servo servo;
 Servo motor;
@@ -56,10 +58,22 @@ void loop() {
       _motor(rcv.motor);
 
       // sending feedback to NUC
-      Serial.print(12345);
+      send_feedback();
+      
       //Serial.print(SUCCESS_ACK);
     }
   }             
+}
+
+void send_feedback() {
+  String msg = String(now());
+  int len = msg.length();
+  if (len < 7) {
+      for (int i = 0; i < 7-len; i++) {
+        msg.concat("-");
+      }
+  }
+  Serial.print(msg); 
 }
 
 void _motor(signed int value) {

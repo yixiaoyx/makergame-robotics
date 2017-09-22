@@ -58,13 +58,24 @@ void sendMsg(int motor, int servo, char* str) {
 
 	//try
 	//{
-		boost::asio::read(serial, boost::asio::buffer(str, 5));
+		boost::asio::read(serial, boost::asio::buffer(str, 7));
 		//std::cout << "got here" << std::endl;
-		std::cout << "feedback in serial.h is " << str << std::endl;
+		//std::cout << "feedback in serial.h is " << str << std::endl;
 	//
 	//catch (const boost::system::system_error &e1)
 	//{
 	//}
+}
+
+
+std::string extractFeedback(char *msg) {
+	std::string extract(msg);
+	std::size_t pos = extract.find('-');
+	if (pos != std::string::npos) {
+		return extract.substr(0, pos);
+	} else {
+		return extract;
+	}
 }
 
 #endif
