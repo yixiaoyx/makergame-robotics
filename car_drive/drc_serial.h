@@ -54,12 +54,17 @@ void sendMsg(int motor, int servo, char* str) {
 	int retval = boost::asio::write(serial,boost::asio::buffer(toSend,sizeof(toSend)));
 	if(retval <= 0)
 		std::cout << "serial write failed: " << retval << std::endl;
-	//    usleep(100000);
+	    //usleep(100000);
 
-//	try {
-//	 boost::asio::read(serial,boost::asio::buffer(str,1));
-//	    } catch(const boost::system::system_error &e1) {
-//	   }
+	//try
+	//{
+		boost::asio::read(serial, boost::asio::buffer(str, 5));
+		//std::cout << "got here" << std::endl;
+		std::cout << "feedback in serial.h is " << str << std::endl;
+	//
+	//catch (const boost::system::system_error &e1)
+	//{
+	//}
 }
 
 #endif

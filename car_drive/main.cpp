@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 	initialize();
 
 	std::cout << "enter <motor> <steering>  \n>";
-	char str[100];
+	char str[100] = {0};
 
 	while(1) {
 		int motor, steering;
@@ -22,10 +22,10 @@ int main(int argc, char** argv) {
 		std::cin >> motor >> steering;
 		printf("motor %d, steering %d\n", motor, steering);
 
-	//	char str[100];
-		sendMsg(motor, steering, str);
-
-		std::cout << str << std::endl;
+		char feedback[100] = {0};
+		sendMsg(motor, steering, feedback);
+	 	//usleep(1000);
+		std::cout << feedback << std::endl;
 	}
 
 	sendMsg(MOTOR, 0, str);

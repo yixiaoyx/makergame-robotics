@@ -52,8 +52,11 @@ void loop() {
     } else {
       digitalWrite(err3, err3State);
       err3State = !err3State;
-      _servo(rcv.servo);
+      _servo(rcv.servo); 
       _motor(rcv.motor);
+
+      // sending feedback to NUC
+      Serial.print(12345);
       //Serial.print(SUCCESS_ACK);
     }
   }             
