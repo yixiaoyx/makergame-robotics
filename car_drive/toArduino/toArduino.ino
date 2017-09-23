@@ -20,6 +20,7 @@ void setup () {
   Serial.begin(9600);
   servo.attach(6);
   motor.attach(5);
+  motor.write(1500);
   pinMode(err1, OUTPUT);
   pinMode(err2, OUTPUT);
   pinMode(err3, OUTPUT);
@@ -56,13 +57,27 @@ void loop() {
       _motor(rcv.motor);
       //Serial.print(SUCCESS_ACK);
     }
-  }             
+  }
 }
 
 void _motor(signed int value) {
   //Serial.print("moving motor ");
   //Serial.println(value);
-  value = map(value,0,100,1300,1700);
+  if(value < 0 && value >= -101){
+    value = map(value,-100,-1,1250,1400);
+  }
+  else if(value > 0 && value <= 100){
+    value = map(value,1,100,1580,1800);
+  }
+  else if(value == 0){
+    value = 1500;
+  }
+  else if(value == 111){
+    value = 1000;
+  }
+  else{
+    value = 1500;
+  }
   motor.write(value);
 }
 
@@ -79,19 +94,19 @@ int read_block(char* ptr, int size) {
     while(Serial.available() > size){
       //Serial.print(Serial.read());
       //Serial.print("|");
-    } 
+    }
       //Serial.println("");
-    //dump();  
+    //dump();
   } else if (Serial.available() % size != 0){
 //    //Serial.println("too many bytes, flushing");
 //    while(Serial.available() > size){
 //      //Serial.print(Serial.read());
 //      //Serial.print("|");
-//    } 
+//    }
 //      //Serial.println("");
       return ERROR_INSUFFICIENT_BYTES;
   }
-  
+
   int i;
   for(i=0;i<size;i++) {
     if(Serial.available() == 0)

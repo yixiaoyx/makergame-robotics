@@ -6,7 +6,7 @@
 #include <string>
 #include <exception>
 
-#define UPPER_MOTOR 100
+#define UPPER_MOTOR 111
 #define LOWER_MOTOR -100
 
 #define UPPER_SERVO 45
@@ -20,16 +20,18 @@ void initialize() {
 	for(int i = 0; i < 5; i++){
 
 		try{
-			serial.open("/dev/ttyACM" + static_cast<std::string>(num));
+			serial.open("/dev/ttyUSB" + static_cast<std::string>(num)); //changed from "/dev/ttyACM"
 			break;
 		} catch(std::exception &e){
 			std::cout << "trying " << num << " failed, continuing" << std::endl;
 			num[0]++;
 		}
-	
+
 	}
-	if(num[0] == '5')
+	if(num[0] == '5'){
+		std::cout << "Could not connect" << std::endl;
 		throw(std::exception());
+	}
 	std::cout << "opened port ACM" << num << std::endl;
 
 	serial.set_option(boost::asio::serial_port_base::baud_rate(9600));
@@ -45,7 +47,7 @@ void get_message(int motor, int servo, char* a) {
 // assumed that initialize is called
 void sendMsg(int motor, int servo, char* str) {
 	assert(servo <= UPPER_SERVO && servo>= LOWER_SERVO);
-	assert(motor <= UPPER_MOTOR && motor >= LOWER_SERVO);
+	assert(motor <= UPPER_MOTOR && motor >= LOWER_MOTOR);
 
 	char toSend[3];
 
